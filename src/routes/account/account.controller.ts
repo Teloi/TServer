@@ -1,15 +1,20 @@
 import { Controller, Get } from '@nestjs/common';
+import { AccountService } from './account.service';
 
 @Controller('account')
 export class AccountController {
+
+  constructor(private readonly accountService: AccountService) {
+
+  }
 
   @Get()
   getHell(): string {
     return "123Hello";
   }
-  
-  @Get("getHello")
-  getHello(): string {
-    return "123";
+
+  @Get("login")
+  getHello() {
+    return this.accountService.findAll();
   }
 }
