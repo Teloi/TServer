@@ -1,0 +1,13 @@
+{
+    "type": "mysql",
+    "host": "****",
+    "port": 3306,
+    "username": "root",
+    "password": "****",
+    "entities": [
+        "build/app/entity/**/*.js"
+    ],
+    "synchronize": true,
+    "logging": false,
+    "autoSchemaSync": true
+}
