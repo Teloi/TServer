@@ -1,3 +1,5 @@
+// 使用时去除 example 并对应填写内容
+
 export const main: any = {
   "type": "mysql",
   "host": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",

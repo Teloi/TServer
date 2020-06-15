@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entity/db-main/user.entity';
 import { Repository } from 'typeorm';
 import { makeSalt, encryptPassword } from 'src/utils/cryptogram';
+import { json } from 'express';
 
 @Injectable()
 export class AccountService {
@@ -14,13 +15,13 @@ export class AccountService {
   }
 
   // 查询所有用户
-  async findAll(): Promise<User[]> {
+  async findAll() {
     return await this.usersRepository.find();
   }
 
   // 查询用户是否存在
   async findOne(username: string): Promise<User | undefined> {
-    return await this.usersRepository.findOne({ username: username });
+    return await this.usersRepository.findOne({ UserName: username });
   }
 
   /**
@@ -47,14 +48,15 @@ export class AccountService {
     const salt = makeSalt(); // 制作密码盐
     const hashPwd = encryptPassword(password, salt);  // 加密密码
     const insertUser = new User();
-    insertUser.username = userName;
-    insertUser.nickname = nickName;
-    insertUser.password = hashPwd;
-    insertUser.securityStamp = salt;
-    insertUser.mobile = mobile;
-    insertUser.isActive = true;
-    insertUser.email = email;
-    insertUser.userFace = userName;
+    insertUser.UserName = userName;
+    insertUser.NickName = nickName;
+    insertUser.Password = hashPwd;
+    insertUser.SecurityStamp = salt;
+    insertUser.Mobile = mobile;
+    insertUser.IsActive = true;
+    insertUser.Email = email;
+    insertUser.UserFace = userName;
+
     // 保存
     try {
       await this.usersRepository.save(insertUser);

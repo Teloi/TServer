@@ -3,35 +3,35 @@ import { Column, Entity, PrimaryGeneratedColumn, JoinColumn, ManyToOne, CreateDa
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  Id: number;
 
   @Column({ length: 20 })
-  username: string;
+  UserName: string;
 
   @Column({ length: 20 })
-  nickname: string;
+  NickName: string;
 
   @Column({ length: 128 })
-  password: string;
+  Password: string;
 
   @Column({ length: 128 })
-  securityStamp: string;
+  SecurityStamp: string;
 
   @Column({ length: 64 })
-  email: string;
+  Email: string;
 
   @Column({ length: 20 })
-  mobile: string;
+  Mobile: string;
   
   @Column('tinyint')
-  isActive: boolean;
+  IsActive: boolean;
 
   @Column()
-  userFace: string;
+  UserFace: string;
 
   @UpdateDateColumn()
-  lastModificationTime: Date;
+  LastModificationTime: Date;
 
   @CreateDateColumn()
-  creationTime: Date;
+  CreationTime: Date;
 }
