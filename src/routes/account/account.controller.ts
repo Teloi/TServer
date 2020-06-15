@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { AccountService } from './account.service';
 
 @Controller('account')
@@ -16,5 +16,10 @@ export class AccountController {
   @Get("login")
   getHello() {
     return this.accountService.findAll();
+  }
+
+  @Post("register")
+  async register(@Body() body: any) {
+    return await this.accountService.register(body);
   }
 }

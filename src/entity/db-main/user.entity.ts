@@ -8,14 +8,20 @@ export class User {
   @Column({ length: 20 })
   username: string;
 
-  @Column({ length: 128 })
-  password: string;
-
   @Column({ length: 20 })
   nickname: string;
 
+  @Column({ length: 128 })
+  password: string;
+
+  @Column({ length: 128 })
+  securityStamp: string;
+
   @Column({ length: 64 })
   email: string;
+
+  @Column({ length: 20 })
+  mobile: string;
   
   @Column('tinyint')
   isActive: boolean;
