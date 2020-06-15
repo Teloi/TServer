@@ -35,4 +35,4 @@ lerna-debug.log*
 
 
 # Custom
-ormconfig.json
+ormconfig.ts
