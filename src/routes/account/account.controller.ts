@@ -32,7 +32,6 @@ export class AccountController {
     }
   }
 
-  @UseGuards(AuthGuard('jwt')) // 使用 'JWT' 进行验证
   @Post("register")
   async register(@Body() body: any) {
     return await this.accountService.register(body);

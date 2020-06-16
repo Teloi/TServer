@@ -54,11 +54,11 @@ const log4jsConfig = {
   },
   categories: {
     default: {
-      appenders: ['console', 'app', 'errors'],
+      appenders: ['app', 'errors'],
       level: 'DEBUG',
     },
-    info: { appenders: ['console', 'app', 'errors'], level: 'info' },
-    access: { appenders: ['console', 'app', 'errors'], level: 'info' },
+    info: { appenders: ['app', 'errors'], level: 'info' },
+    access: { appenders: ['app', 'errors'], level: 'info' },
     http: { appenders: ['access'], level: 'DEBUG' },
   },
   pm2: true, // 使用 pm2 来管理项目时，打开
@@ -66,3 +66,13 @@ const log4jsConfig = {
 };
 
 export default log4jsConfig;
+
+// categories: {
+//   default: {
+//     appenders: ['console', 'app', 'errors'],
+//     level: 'DEBUG',
+//   },
+//   info: { appenders: ['console', 'app', 'errors'], level: 'info' },
+//   access: { appenders: ['console', 'app', 'errors'], level: 'info' },
+//   http: { appenders: ['access'], level: 'DEBUG' },
+// }
