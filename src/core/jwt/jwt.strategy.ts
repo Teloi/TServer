@@ -9,13 +9,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: jwtConstants.secret,
+      secretOrKey: jwtConstants.secret
     });
   }
 
-  // JWT验证 - Step 4: 被守卫调用
+  // JWT验证 - Step 4: 被守卫调用,验证通过时才会调用
   async validate(payload: any) {
-    console.log(`JWT验证 - Step 4: 被守卫调用`);
+    console.log(`JWT验证 - Step 4: 被守卫调用`, payload);
     return { userId: payload.sub, username: payload.username, realName: payload.realName, role: payload.role };
   }
 }

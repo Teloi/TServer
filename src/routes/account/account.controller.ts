@@ -12,11 +12,13 @@ export class AccountController {
 
   @Post('login')
   async login(@Body() loginParmas: any) {
-    console.log('JWT验证 - Step 1: 用户请求登录');
+    // 验证帐号密码
     const authResult = await this.authService.validateUser(loginParmas.username, loginParmas.password);
     switch (authResult.code) {
-      case 1:
+      case 1: {
+        // 签发 Token
         return this.authService.certificate(authResult.user);
+      }
       case 2:
         return {
           code: 600,

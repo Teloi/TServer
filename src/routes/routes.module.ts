@@ -9,8 +9,8 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from 'src_config/jwt.config';
 import { AuthService } from './auth/auth.service';
-import { LocalStrategy } from './auth/local.strategy';
-import { JwtStrategy } from './auth/jwt.strategy';
+import { LocalStrategy } from '../core/jwt/local.strategy';
+import { JwtStrategy } from '../core/jwt/jwt.strategy';
 
 
 @Module({

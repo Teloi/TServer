@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { AccountService } from '../account/account.service';
 import { JwtService } from '@nestjs/jwt';
 import { encryptPassword } from '../../core/utils/cryptogram';
+import { User } from 'src/entity/db-main/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -38,9 +39,9 @@ export class AuthService {
   }
 
   // JWT验证 - Step 3: 处理 jwt 签证
-  async certificate(user: any) {
-    const payload = { username: user.username, sub: user.userId, realName: user.realName, role: user.role };
-    console.log('JWT验证 - Step 3: 处理 jwt 签证');
+  async certificate(user: User) {
+    const payload = { userId: user.Id, username: user.UserName, nickName: user.NickName, role: user.Mobile };
+    console.log('JWT验证 - Step 3: 处理 jwt 签证', payload);
     try {
       const token = this.jwtService.sign(payload);
       return {
