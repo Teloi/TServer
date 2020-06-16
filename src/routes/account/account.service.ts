@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entity/db-main/user.entity';
 import { Repository } from 'typeorm';
-import { makeSalt, encryptPassword } from 'src/utils/cryptogram';
+import { makeSalt, encryptPassword } from 'src/core/utils/cryptogram';
 import { json } from 'express';
 
 @Injectable()
