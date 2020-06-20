@@ -1,6 +1,8 @@
 // 使用时去除 example
 export const jwtConstants = {
-  secret: 'xxxxxxxxxxxx',
+  secret: 'xxxxxxxxxxxxxxxxx',
+  refreshSecret: 'xxxxxxxxxxxxxxx',
   shortToken: '2h',
-  longToken: '8h'
+  doubleToken: '1d',
+  longToken: '10d'
 };
