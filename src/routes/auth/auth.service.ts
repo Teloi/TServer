@@ -3,6 +3,8 @@ import { AccountService } from '../account/account.service';
 import { JwtService } from '@nestjs/jwt';
 import { encryptPassword } from '../../core/utils/cryptogram';
 import { User } from 'src/entity/db-main/user.entity';
+import { jwtConstants } from 'src_config/jwt.config';
+import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class AuthService {
@@ -44,10 +46,12 @@ export class AuthService {
     console.log('JWT验证 - Step 3: 处理 jwt 签证', payload);
     try {
       const token = this.jwtService.sign(payload);
+      const refreshToken = jwt.sign(payload, jwtConstants.refreshSecret, { expiresIn: jwtConstants.longToken });
       return {
         code: 200,
         data: {
           token,
+          refreshToken
         },
         msg: `登录成功`,
       };

@@ -4,19 +4,19 @@ import { Injectable } from '@nestjs/common';
 import { jwtConstants } from '../../../src_config/jwt.config';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
   constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: jwtConstants.secret,
+      secretOrKey: jwtConstants.refreshSecret,
       passReqToCallback: false
     });
   }
 
   // passReqToCallback:false
   async validate(payload) {
-    return { userId: payload.sub, username: payload.username, realName: payload.realName, role: payload.role };
+    return 2;
   }
 
   // passReqToCallback:false

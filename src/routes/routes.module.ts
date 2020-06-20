@@ -12,15 +12,16 @@ import { AuthService } from './auth/auth.service';
 import { LocalStrategy } from '../core/jwt/local.strategy';
 import { JwtStrategy } from '../core/jwt/jwt.strategy';
 import { SystemService } from './system/system.service';
+import { JwtRefreshStrategy } from '../core/jwt/jwt-refresh.stratehy';
 
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
-    PassportModule.register({ defaultStrategy: 'jwt' }),
+    PassportModule.register({ defaultStrategy: 'jwt', property: 'userInfo' }),
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: jwtConstants.longToken }, // token 过期时效
+      signOptions: { expiresIn: jwtConstants.shortToken }, // token 过期时效
     })],
   controllers: [
     AccountController,
@@ -32,6 +33,7 @@ import { SystemService } from './system/system.service';
     AuthService,
     LocalStrategy,
     JwtStrategy,
+    JwtRefreshStrategy,
     SystemService
   ]
 })
