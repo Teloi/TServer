@@ -14,21 +14,7 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh'
     });
   }
 
-  // passReqToCallback:false
   async validate(payload) {
-    return 2;
+    return { userId: payload.userId, userName: payload.userName, nickName: payload.nickName, role: payload.role, accessType: 'refresh' };
   }
-
-  // passReqToCallback:false
-  // async validate(req, payload, done) {
-  //   // 当前日期
-  //   const current = Math.floor(Date.now() / 1000);
-  //   // 签发日期
-  //   console.log(current, payload);
-  //   const userInfo = { userId: payload.sub, username: payload.username, realName: payload.realName, role: payload.role };
-  //   req.TSession = userInfo;
-  //   // console.log(`JWT验证 - Step 4: 被守卫调用`, payload, callback);
-  //   // return { userId: payload.sub, username: payload.username, realName: payload.realName, role: payload.role };
-  //   done(null, userInfo);
-  // }
 }

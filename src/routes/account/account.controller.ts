@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Req } from '@nestjs/common';
 import { AccountService } from './account.service';
 import { AuthService } from 'src/routes/auth/auth.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -10,10 +10,15 @@ export class AccountController {
 
   }
 
+  /**
+   * 登录
+   * @param loginParmas 参数待定
+   */
   @Post('login')
   async login(@Body() loginParmas: any) {
     // 验证帐号密码
     const authResult = await this.authService.validateUser(loginParmas.username, loginParmas.password);
+    console.log(authResult);
     switch (authResult.code) {
       case 1: {
         // 签发 Token
@@ -32,8 +37,21 @@ export class AccountController {
     }
   }
 
+  /**
+   * 注册
+   * @param body 参数待定
+   */
   @Post("register")
   async register(@Body() body: any) {
     return await this.accountService.register(body);
+  }
+
+  /**
+   * 使用refresh token 验证并签发 access token
+   */
+  @UseGuards(AuthGuard('jwt-refresh'))
+  @Get('refreshToken')
+  async refreshToken(@Req() req: any) {
+    return req.userInfo;
   }
 }

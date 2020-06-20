@@ -12,7 +12,6 @@ export class AuthService {
 
   // JWT验证 - Step 2: 校验用户信息
   async validateUser(username: string, password: string): Promise<any> {
-    console.log('JWT验证 - Step 2: 校验用户信息');
     const user = await this.accountService.findOne(username);
     if (user) {
       const hashedPassword = user.Password;
@@ -40,10 +39,9 @@ export class AuthService {
     };
   }
 
-  // JWT验证 - Step 3: 处理 jwt 签证
+  // 数据库签发 token
   async certificate(user: User) {
-    const payload = { userId: user.Id, username: user.UserName, nickName: user.NickName, role: user.Mobile };
-    console.log('JWT验证 - Step 3: 处理 jwt 签证', payload);
+    const payload = { userId: user.Id, userName: user.UserName, nickName: user.NickName, role: user.Mobile };
     try {
       const token = this.jwtService.sign(payload);
       const refreshToken = jwt.sign(payload, jwtConstants.refreshSecret, { expiresIn: jwtConstants.longToken });
