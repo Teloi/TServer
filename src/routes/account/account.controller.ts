@@ -6,7 +6,10 @@ import { AuthGuard } from '@nestjs/passport';
 @Controller('account')
 export class AccountController {
 
-  constructor(private readonly accountService: AccountService, private readonly authService: AuthService) {
+  constructor(
+    private readonly accountService: AccountService,
+    private readonly authService: AuthService
+  ) {
 
   }
 
@@ -52,6 +55,8 @@ export class AccountController {
   @UseGuards(AuthGuard('jwt-refresh'))
   @Get('refreshToken')
   async refreshToken(@Req() req: any) {
-    return req.userInfo;
+    const userId = req.userInfo.Id;
+    const user = await this.accountService.findOneById(userId);
+    return this.authService.certificate(user);
   }
 }

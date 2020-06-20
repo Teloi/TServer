@@ -12,7 +12,7 @@ export class AuthService {
 
   // JWT验证 - Step 2: 校验用户信息
   async validateUser(username: string, password: string): Promise<any> {
-    const user = await this.accountService.findOne(username);
+    const user = await this.accountService.findOneByUserName(username);
     if (user) {
       const hashedPassword = user.Password;
       const salt = user.SecurityStamp;

@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entity/db-main/user.entity';
 import { Repository } from 'typeorm';
 import { makeSalt, encryptPassword } from 'src/core/utils/cryptogram';
-import { json } from 'express';
 
 @Injectable()
 export class AccountService {
@@ -19,8 +18,13 @@ export class AccountService {
     return await this.usersRepository.find();
   }
 
-  // 查询用户是否存在
-  async findOne(username: string): Promise<User | undefined> {
+  // 通过用户ID查询用户
+  async findOneById(userId: string): Promise<User | undefined> {
+    return await this.usersRepository.findOne(userId);
+  }
+
+  // 通过用户名查询用户
+  async findOneByUserName(username: string): Promise<User | undefined> {
     return await this.usersRepository.findOne({ UserName: username });
   }
 
@@ -37,7 +41,7 @@ export class AccountService {
       };
     }
 
-    const user = await this.findOne(userName);
+    const user = await this.findOneByUserName(userName);
     if (user) {
       return {
         code: 400,
@@ -70,24 +74,5 @@ export class AccountService {
         msg: `Service error: ${err}`,
       };
     }
-
-    // const registerSQL = `
-    //   INSERT INTO admin_user
-    //     (account_name, real_name, passwd, passwd_salt, mobile, user_status, role, create_by)
-    //   VALUES
-    //     ('${accountName}', '${realName}', '${hashPwd}', '${salt}', '${mobile}', 1, 3, 0)
-    // `;
-    // try {
-    //   await sequelize.query(registerSQL, { logging: false });
-    //   return {
-    //     code: 200,
-    //     msg: 'Success',
-    //   };
-    // } catch (error) {
-    //   return {
-    //     code: 503,
-    //     msg: `Service error: ${error}`,
-    //   };
-    // }
   }
 }
