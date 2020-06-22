@@ -13,6 +13,7 @@ import { LocalStrategy } from '../core/jwt/local.strategy';
 import { JwtStrategy } from '../core/jwt/jwt.strategy';
 import { SystemService } from './system/system.service';
 import { JwtRefreshStrategy } from '../core/jwt/jwt-refresh.stratehy';
+import { SmsService } from './account/sms.service';
 
 
 @Module({
@@ -34,7 +35,8 @@ import { JwtRefreshStrategy } from '../core/jwt/jwt-refresh.stratehy';
     LocalStrategy,
     JwtStrategy,
     JwtRefreshStrategy,
-    SystemService
+    SystemService,
+    SmsService
   ]
 })
 export class RoutesModule { }

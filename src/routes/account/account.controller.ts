@@ -2,13 +2,15 @@ import { Controller, Get, Post, Body, UseGuards, Req } from '@nestjs/common';
 import { AccountService } from './account.service';
 import { AuthService } from 'src/routes/auth/auth.service';
 import { AuthGuard } from '@nestjs/passport';
+import { SmsService } from './sms.service';
 
 @Controller('account')
 export class AccountController {
 
   constructor(
     private readonly accountService: AccountService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly smsService: SmsService
   ) {
 
   }
@@ -58,5 +60,12 @@ export class AccountController {
     const userId = req.userInfo.Id;
     const user = await this.accountService.findOneById(userId);
     return this.authService.certificate(user);
+  }
+
+
+  @Get('sendSmsDemo')
+  async sendSmsDemo() {
+    await this.smsService.sendOneSMS();
+    return true;
   }
 }

@@ -37,3 +37,4 @@ lerna-debug.log*
 # Custom
 ormconfig.ts
 jwt.config.ts
+aliyun-sms.config.ts
