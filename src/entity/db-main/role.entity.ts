@@ -4,8 +4,8 @@ import { Column, Entity, PrimaryGeneratedColumn, JoinColumn, ManyToOne, CreateDa
 @Entity()
 export class Role {
   @PrimaryGeneratedColumn()
-  id: number;
+  Id: number;
 
   @Column()
-  name: string;
+  Name: string;
 }

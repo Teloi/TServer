@@ -14,11 +14,12 @@ import { JwtStrategy } from '../core/jwt/jwt.strategy';
 import { SystemService } from './system/system.service';
 import { JwtRefreshStrategy } from '../core/jwt/jwt-refresh.stratehy';
 import { SmsService } from './account/sms.service';
+import { UserGroup } from 'src/entity/db-main/user_group.entity';
 
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, UserGroup]),
     PassportModule.register({ defaultStrategy: 'jwt', property: 'userInfo' }),
     JwtModule.register({
       secret: jwtConstants.secret,

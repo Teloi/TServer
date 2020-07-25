@@ -1,15 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entity/db-main/user.entity';
-import { Repository } from 'typeorm';
+import { Repository, Transaction, Connection } from 'typeorm';
+import { UserGroup } from 'src/entity/db-main/user_group.entity';
 
 @Injectable()
 export class SystemService {
-  constructor(@InjectRepository(User) private usersRepository: Repository<User>) {
+  constructor(
+    private connection: Connection,
+    @InjectRepository(User) private usersRepository: Repository<User>,
+    @InjectRepository(UserGroup) private userGruopRepository: Repository<UserGroup>
+  ) {
 
   }
 
   // 数据库插入压力测试
+  @Transaction()
   async dbInsertUserTest() {
     const insertUser = new User();
     insertUser.UserName = '测试用户';
@@ -20,8 +26,17 @@ export class SystemService {
     insertUser.IsActive = true;
     insertUser.Email = '18888888888@qq.com';
     insertUser.UserFace = 'base64';
+
+    const insertUserGroup = new UserGroup();
+    insertUserGroup.GroupName = 'Groupffffffffffff';
     try {
-      await this.usersRepository.save(insertUser);
+      // await this.usersRepository.save(insertUser);
+      // await this.userGruopRepository.save(insertUserGroup);
+
+      await this.connection.transaction(async manager => {
+        await manager.save(insertUser);
+        await manager.save(insertUserGroup);
+      });
       return {
         code: 200,
         msg: 'Success',

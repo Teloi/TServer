@@ -7,8 +7,7 @@ import { makeSalt, encryptPassword } from 'src/core/utils/cryptogram';
 @Injectable()
 export class AccountService {
   constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>
+    @InjectRepository(User) private usersRepository: Repository<User>
   ) {
 
   }

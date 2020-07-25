@@ -2,7 +2,7 @@ import { Column, Entity, PrimaryGeneratedColumn, JoinColumn, ManyToOne, CreateDa
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({type:"bigint"})
   Id: number;
 
   @Column({ length: 20 })
