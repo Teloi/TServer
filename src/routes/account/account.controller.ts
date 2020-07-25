@@ -62,7 +62,6 @@ export class AccountController {
     return this.authService.certificate(user);
   }
 
-
   @Get('sendSmsDemo')
   async sendSmsDemo() {
     await this.smsService.sendOneSMS();

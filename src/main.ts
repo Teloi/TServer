@@ -12,7 +12,7 @@ async function bootstrap() {
   app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
   // 设置全局路由前缀
   app.setGlobalPrefix('v1');
-
+  
   // 监听所有的请求路由，并打印日志
   app.use(logger);
 
