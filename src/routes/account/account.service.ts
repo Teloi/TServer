@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entity/db-main/user.entity';
 import { Repository } from 'typeorm';
@@ -68,10 +68,11 @@ export class AccountService {
         msg: 'Success',
       };
     } catch (err) {
-      return {
-        code: 503,
-        msg: `Service error: ${err}`,
-      };
+      // return {
+      //   code: 503,
+      //   msg: `Service error: ${err}`,
+      // };
+      throw new HttpException('注册请求失败!', 400);
     }
   }
 }

@@ -16,7 +16,6 @@ import { JwtRefreshStrategy } from '../core/jwt/jwt-refresh.stratehy';
 import { SmsService } from './account/sms.service';
 import { UserGroup } from 'src/entity/db-main/user_group.entity';
 
-
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, UserGroup]),

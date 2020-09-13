@@ -1,8 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn, JoinColumn, ManyToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BeforeInsert } from "typeorm";
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn({type:"bigint"})
+  @PrimaryGeneratedColumn({ type: "bigint" })
   Id: number;
 
   @Column({ length: 20 })
@@ -22,7 +22,7 @@ export class User {
 
   @Column({ length: 20 })
   Mobile: string;
-  
+
   @Column('tinyint')
   IsActive: boolean;
 
