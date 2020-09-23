@@ -4,32 +4,32 @@ import { Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateCol
 @Entity()
 export class Cipher {
   @PrimaryGeneratedColumn()
-  id: number;
+  Id: number;
 
   @Column({ length: 512 })
-  webSite: string;
+  WebSite: string;
 
   @Column({ length: 1024 })
-  describe: string;
+  Describe: string;
 
   @Column({ length: 100 })
-  account: string;
+  Account: string;
 
   @Column({ length: 50 })
-  pwd: string;
+  Pwd: string;
 
   @Column({ length: 20 })
-  phoneNumber: string;
+  PhoneNumber: string;
 
   @Column({ length: 256 })
-  email: string;
+  Email: string;
 
   @Column({ length: 1024 })
-  safeInfo: string;
+  SafeInfo: string;
 
   @UpdateDateColumn()
-  lastModificationTime: Date;
+  LastModificationTime: Date;
 
   @CreateDateColumn()
-  creationTime: Date;
+  CreationTime: Date;
 }
