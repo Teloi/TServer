@@ -17,7 +17,8 @@ export class EventsGateway {
 
   @SubscribeMessage('addCart')
   addCart(client: any, payload: any) {
-    console.log(payload)
+    console.log(client)
+    console.log(payload);
     var roomid = url.parse(client.request.url, true).query.roomid;   /*获取房间号 获取桌号*/
     client.join(roomid);
     // this.server.to(roomid).emit('addCart','Server AddCart Ok');    //广播所有人包含自己
