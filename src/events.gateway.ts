@@ -17,7 +17,6 @@ export class EventsGateway {
 
   @SubscribeMessage('addCart')
   addCart(client: any, payload: any) {
-    console.log(client)
     console.log(payload);
     var roomid = url.parse(client.request.url, true).query.roomid;   /*获取房间号 获取桌号*/
     client.join(roomid);
