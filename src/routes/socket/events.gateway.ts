@@ -24,11 +24,11 @@ export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGate
   }
 
 
-  handleConnection(client: Socket) {
-    console.log('有人链接了' + client.id);
+  handleConnection(client) {
+    console.log('有人链接了' + client.id, client.decoded_token.name);
   }
 
-  handleDisconnect(client: Socket) {
+  handleDisconnect(client) {
     console.log('有人走了' + client.id);
   }
 
