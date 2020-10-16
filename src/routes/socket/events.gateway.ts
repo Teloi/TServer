@@ -19,7 +19,8 @@ export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGate
   afterInit(): void {
     this.server.use(socketioJwt.authorize({
       secret: jwtConstants.secret,
-      handshake: true
+      handshake: true,
+      auth_header_required: true
     }));
   }
 
