@@ -25,7 +25,7 @@ export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGate
 
 
   handleConnection(client) {
-    console.log('有人链接了' + client.id, client.decoded_token.name);
+    console.log('有人链接了' + client.id, client.decoded_token);
   }
 
   handleDisconnect(client) {
