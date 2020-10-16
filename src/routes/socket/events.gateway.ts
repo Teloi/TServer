@@ -1,19 +1,31 @@
-import { MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import { MessageBody, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import { Socket } from 'socket.io';
 import * as url from "url"
 
 @WebSocketGateway()
-export class EventsGateway {
+export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server;
 
   private clientsArr: any[] = [];
 
-  handleConnection(client: any,) {
+  constructor() {
+
+  }
+
+  afterInit(): void {
+
+  }
+
+
+  handleConnection(client: Socket) {
     console.log('有人链接了' + client.id);
   }
 
-  handleDisconnect(client: any) {
+  handleDisconnect(client: Socket) {
     console.log('有人走了' + client.id);
   }
+
+  
 
   @SubscribeMessage('addCart')
   addCart(client: any, payload: any) {
