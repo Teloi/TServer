@@ -32,8 +32,6 @@ export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGate
     console.log('有人走了' + client.id);
   }
 
-  
-  @UseGuards(AuthGuard('jwt'))
   @SubscribeMessage('addCart')
   addCart(client: any, payload: any) {
     console.log(payload);
