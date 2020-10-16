@@ -2,7 +2,9 @@ import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { MessageBody, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
+import { jwtConstants } from 'src_config/jwt.config';
 import * as url from "url"
+import * as socketioJwt from 'socketio-jwt';
 
 @WebSocketGateway()
 export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
@@ -15,7 +17,10 @@ export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGate
   }
 
   afterInit(): void {
-
+    this.server.use(socketioJwt.authorize({
+      secret: jwtConstants.secret,
+      handshake: true
+    }));
   }
 
 
