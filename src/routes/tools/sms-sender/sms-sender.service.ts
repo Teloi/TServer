@@ -1,10 +1,9 @@
+import RPCClient = require('@alicloud/pop-core');
 import { Injectable } from '@nestjs/common';
 import { AliSMSConfig, params } from 'src_config/aliyun-sms.config';
-import RPCClient = require('@alicloud/pop-core');
 
 @Injectable()
-export class SmsService {
-
+export class SmsSenderService {
   client: RPCClient;
 
   constructor() {

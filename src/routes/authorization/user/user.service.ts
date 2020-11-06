@@ -1,14 +1,18 @@
-import { HttpException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
+import { encryptPassword, makeSalt } from 'src/core/utils/cryptogram';
 import { User } from 'src/entity/db-main/user.entity';
+import { jwtConstants } from 'src_config/jwt.config';
 import { Repository } from 'typeorm';
-import { makeSalt, encryptPassword } from 'src/core/utils/cryptogram';
+import * as jwt from 'jsonwebtoken';
 
 @Injectable()
-export class AccountService {
+export class UserService {
+
   constructor(
-    @InjectRepository(User) private usersRepository: Repository<User>
-  ) {
+    private readonly jwtService: JwtService,
+    @InjectRepository(User) private usersRepository: Repository<User>) {
 
   }
 
@@ -73,6 +77,58 @@ export class AccountService {
       //   msg: `Service error: ${err}`,
       // };
       throw new HttpException('注册请求失败!', 400);
+    }
+  }
+
+
+  // JWT验证 - Step 2: 校验用户信息
+  async validateUser(username: string, password: string): Promise<any> {
+    const user = await this.findOneByUserName(username);
+    if (user) {
+      const hashedPassword = user.Password;
+      const salt = user.SecurityStamp;
+      // 通过密码盐，加密传参，再与数据库里的比较，判断是否相等
+      const hashPassword = encryptPassword(password, salt);
+      if (hashedPassword === hashPassword) {
+        // 密码正确
+        return {
+          code: 1,
+          user,
+        };
+      } else {
+        // 密码错误
+        return {
+          code: 2,
+          user: null,
+        };
+      }
+    }
+    // 查无此人
+    return {
+      code: 3,
+      user: null,
+    };
+  }
+
+  // 数据库签发 token
+  async certificate(user: User) {
+    const payload = { userId: user.Id, userName: user.UserName, nickName: user.NickName, role: user.Mobile };
+    try {
+      const token = this.jwtService.sign(payload);
+      const refreshToken = jwt.sign(payload, jwtConstants.refreshSecret, { expiresIn: jwtConstants.longToken });
+      return {
+        code: 200,
+        data: {
+          token,
+          refreshToken
+        },
+        msg: `登录成功`,
+      };
+    } catch (error) {
+      return {
+        code: 600,
+        msg: `账号或密码错误`,
+      };
     }
   }
 }

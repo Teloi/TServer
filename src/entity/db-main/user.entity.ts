@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BeforeInsert, OneToMany } from "typeorm";
-import { UserRoleRel } from "./user_role_rel.entity";
+import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BeforeInsert, OneToMany, JoinTable, ManyToMany } from "typeorm";
+import { Role } from "./role.entity";
+import { UserGroup } from "./user_group.entity";
 
 @Entity()
 export class User {
@@ -36,6 +37,20 @@ export class User {
   @CreateDateColumn()
   CreationTime: Date;
 
-  @OneToMany(type => UserRoleRel, userRole => userRole.role)
-  userRoles: UserRoleRel[];
+  @JoinTable({
+    name: "user_role_rel", // table name for the junction table of this relation
+    joinColumn: {
+      name: "UserId",
+      referencedColumnName: "Id"
+    },
+    inverseJoinColumn: {
+      name: "RoleId",
+      referencedColumnName: "Id"
+    }
+  })
+  @ManyToMany(type => Role, x => x.Users)
+  Roles: Role[];
+
+  @ManyToMany(type => UserGroup, x => x.Users)
+  UserGroups: UserGroup[];
 }

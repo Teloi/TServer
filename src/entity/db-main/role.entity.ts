@@ -1,6 +1,8 @@
 
-import { Column, Entity, PrimaryGeneratedColumn, JoinColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm";
-import { UserRoleRel } from "./user_role_rel.entity";
+import { Column, Entity, PrimaryGeneratedColumn, JoinColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, OneToMany, JoinTable, ManyToMany } from "typeorm";
+import { Permission } from "./permission.entity";
+import { User } from "./user.entity";
+import { UserGroup } from "./user_group.entity";
 
 @Entity()
 export class Role {
@@ -16,6 +18,23 @@ export class Role {
   @CreateDateColumn()
   CreationTime: Date;
 
-  @OneToMany(type => UserRoleRel, userRole => userRole.role)
-  userRoles: UserRoleRel[];
+  @JoinTable({
+    name: "role_permission_rel", // table name for the junction table of this relation
+    joinColumn: {
+      name: "RoleId",
+      referencedColumnName: "Id"
+    },
+    inverseJoinColumn: {
+      name: "PermissionId",
+      referencedColumnName: "Id"
+    }
+  })
+  @ManyToMany(type => Permission, x => x.Roles)
+  Permissions: Permission[];
+
+  @ManyToMany(type => User, x => x.Roles)
+  Users: User[];
+
+  @ManyToMany(type => UserGroup, x => x.Roles)
+  UserGroups: UserGroup[];
 }

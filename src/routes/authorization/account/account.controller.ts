@@ -1,16 +1,12 @@
-import { Controller, Get, Post, Body, UseGuards, Req } from '@nestjs/common';
-import { AccountService } from './account.service';
-import { AuthService } from 'src/routes/auth/auth.service';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { SmsService } from './sms.service';
+import { UserService } from '../user/user.service';
 
 @Controller('account')
 export class AccountController {
 
   constructor(
-    private readonly accountService: AccountService,
-    private readonly authService: AuthService,
-    private readonly smsService: SmsService
+    private readonly userService: UserService
   ) {
 
   }
@@ -22,12 +18,12 @@ export class AccountController {
   @Post('login')
   async login(@Body() loginParmas: any) {
     // 验证帐号密码
-    const authResult = await this.authService.validateUser(loginParmas.username, loginParmas.password);
+    const authResult = await this.userService.validateUser(loginParmas.username, loginParmas.password);
     console.log(authResult);
     switch (authResult.code) {
       case 1: {
         // 签发 Token
-        return this.authService.certificate(authResult.user);
+        return this.userService.certificate(authResult.user);
       }
       case 2:
         return {
@@ -48,7 +44,7 @@ export class AccountController {
    */
   @Post("register")
   async register(@Body() body: any) {
-    return await this.accountService.register(body);
+    return await this.userService.register(body);
   }
 
   /**
@@ -58,13 +54,7 @@ export class AccountController {
   @Get('refreshToken')
   async refreshToken(@Req() req: any) {
     const userId = req.userInfo.Id;
-    const user = await this.accountService.findOneById(userId);
-    return this.authService.certificate(user);
-  }
-
-  @Get('sendSmsDemo')
-  async sendSmsDemo() {
-    await this.smsService.sendOneSMS();
-    return true;
+    const user = await this.userService.findOneById(userId);
+    return this.userService.certificate(user);
   }
 }

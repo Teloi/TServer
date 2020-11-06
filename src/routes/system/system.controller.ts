@@ -26,7 +26,6 @@ export class SystemController {
     return this.systemService.dbSearchUserTest();
   }
 
-  
   // 使用Refresh token 验证
   @UseGuards(AuthGuard('jwt-refresh')) // 使用 'JWT' 进行验证
   @Get('bbs')
