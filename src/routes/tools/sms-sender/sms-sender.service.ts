@@ -16,8 +16,6 @@ export class SmsSenderService {
   }
 
   async sendOneSMS() {
-
-
     var requestOption = {
       method: 'POST'
     };
@@ -27,7 +25,5 @@ export class SmsSenderService {
     }, (ex) => {
       console.log(ex);
     })
-
-
   }
 }

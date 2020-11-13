@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UserService } from '../user/user.service';
+import { LoginInput, RegisterInput } from './account.class';
 
 @Controller('account')
 export class AccountController {
@@ -16,7 +17,7 @@ export class AccountController {
    * @param loginParmas 参数待定
    */
   @Post('login')
-  async login(@Body() loginParmas: any) {
+  async login(@Body() loginParmas: LoginInput) {
     // 验证帐号密码
     const authResult = await this.userService.validateUser(loginParmas.username, loginParmas.password);
     console.log(authResult);
@@ -43,7 +44,7 @@ export class AccountController {
    * @param body 参数待定
    */
   @Post("register")
-  async register(@Body() body: any) {
+  async register(@Body() body: RegisterInput) {
     return await this.userService.register(body);
   }
 

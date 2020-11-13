@@ -34,14 +34,10 @@ export class SystemController {
     // return req.TSession;
   }
 
-  // 测试门禁设备http协议
-  @Post('faceInfo')
-  async faceInfo(@Req() req: any) {
-    req.body.body.face_imgdata = "";
-    req.body.body.model_imgdata = "";
-    console.log(req.body);
-    return req.userInfo;
-    // return req.TSession;
+  
+  @Get('sendFileTest')
+  async sendFileTest(@Res() res){
+    res.sendFile("absolute path");
   }
 
 }

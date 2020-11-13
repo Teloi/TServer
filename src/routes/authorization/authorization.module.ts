@@ -21,10 +21,11 @@ import { AccountController } from './account/account.controller';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from 'src_config/jwt.config';
+import { Menu } from 'src/entity/db-main/menu.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Role, User, UserGroup]),
+    TypeOrmModule.forFeature([Role, User, UserGroup, Menu]),
     PassportModule.register({ defaultStrategy: 'jwt', property: 'userInfo' }),
     JwtModule.register({
       secret: jwtConstants.secret,
@@ -33,7 +34,7 @@ import { jwtConstants } from 'src_config/jwt.config';
   controllers: [MenuController, ElementController, OperationController, RoleController, PermissionController, UserController, UserGroupController, AccountController],
   providers: [UserService, MenuService, ElementService, OperationService, RoleService, PermissionService, UserGroupService],
   exports: [
-    UserService, MenuService, ElementService, OperationService, RoleService, PermissionService, UserGroupService
+    PassportModule, JwtModule, UserService, MenuService, ElementService, OperationService, RoleService, PermissionService, UserGroupService
   ]
 })
 export class AuthorizationModule { }

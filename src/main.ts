@@ -12,7 +12,7 @@ async function bootstrap() {
   app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
   // 设置全局路由前缀
   app.setGlobalPrefix('v1');
-  
+
   // 监听所有的请求路由，并打印日志
   app.use(logger);
 
@@ -22,7 +22,9 @@ async function bootstrap() {
   // 过滤处理 HTTP 异常
   app.useGlobalFilters(new AllExceptionsFilter());
   app.useGlobalFilters(new HttpExceptionFilter());
-  
+
+  // 文件系统
+  app.use('/assets', express.static('assets'));
   // 启动
   await app.listen(5859);
 }
