@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CacheService } from 'src/routes/tools/cache/cache.service';
+import { SmsSenderService } from 'src/routes/tools/sms-sender/sms-sender.service';
 import { UserService } from '../user/user.service';
 import { LoginInput, RegisterInput } from './account.class';
 
@@ -9,7 +10,8 @@ export class AccountController {
 
   constructor(
     private readonly userService: UserService,
-    private readonly cacheService: CacheService
+    private readonly cacheService: CacheService,
+    private readonly smsService: SmsSenderService
   ) {
 
   }
@@ -60,9 +62,12 @@ export class AccountController {
     return this.userService.certificate(user);
   }
 
-  @Get('sendLoginSMS')
-  async sendLoginSMS(@Req() req: any) {
-    this.cacheService.set('phoneNumber', '123445', 600);
+  @Post('sendLoginSMS')
+  async sendLoginSMS(@Body() input: any) {
+    const phoneNumber = input.phoneNumber;
+    const code = this.smsService.createRandomCode();
+    await this.smsService.sendOneSMS(phoneNumber, code);
+    this.cacheService.set(phoneNumber, code, 600);
     return true;
   }
 }
