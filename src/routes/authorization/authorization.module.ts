@@ -22,6 +22,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from 'src_config/jwt.config';
 import { Menu } from 'src/entity/db-main/menu.entity';
+import { ToolsModule } from '../tools/tools.module';
 
 @Module({
   imports: [
@@ -30,7 +31,9 @@ import { Menu } from 'src/entity/db-main/menu.entity';
     JwtModule.register({
       secret: jwtConstants.secret,
       signOptions: { expiresIn: jwtConstants.shortToken }, // token 过期时效
-    })],
+    }),
+    ToolsModule
+  ],
   controllers: [MenuController, ElementController, OperationController, RoleController, PermissionController, UserController, UserGroupController, AccountController],
   providers: [UserService, MenuService, ElementService, OperationService, RoleService, PermissionService, UserGroupService],
   exports: [

@@ -15,8 +15,8 @@ import { UserGroup } from 'src/entity/db-main/user_group.entity';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Role, User, UserGroup]),
-    AuthorizationModule,
-    ToolsModule
+    ToolsModule,
+    AuthorizationModule
   ],
   controllers: [
     SystemController

@@ -11,7 +11,11 @@ async function bootstrap() {
   app.use(express.json()); // For parsing application/json
   app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
   // 设置全局路由前缀
-  app.setGlobalPrefix('v1');
+  const version = 'v1'
+  app.setGlobalPrefix(version);
+
+  // 处理跨域
+  app.enableCors();
 
   // 监听所有的请求路由，并打印日志
   app.use(logger);
@@ -24,7 +28,7 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
 
   // 文件系统
-  app.use('/assets', express.static('assets'));
+  app.use('/' + version + '/assets', express.static('assets'));
   // 启动
   await app.listen(5859);
 }

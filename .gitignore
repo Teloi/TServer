@@ -38,3 +38,4 @@ lerna-debug.log*
 ormconfig.ts
 jwt.config.ts
 aliyun-sms.config.ts
+redis.config.ts

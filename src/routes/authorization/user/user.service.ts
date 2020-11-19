@@ -119,8 +119,12 @@ export class UserService {
       return {
         code: 200,
         data: {
+          id: payload.userId,
+          name: payload.nickName,
+          userName: payload.userName,
           token,
-          refreshToken
+          refreshToken,
+          expired: jwtConstants.longToken
         },
         msg: `登录成功`,
       };

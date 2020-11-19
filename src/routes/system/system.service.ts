@@ -14,6 +14,45 @@ export class SystemService {
 
   }
 
+  // 项目启动时获取基本信息
+  GetAppInfo() {
+    const result = {
+      "app": {
+        "name": "Teloi",
+        "description": "Teloi's Auth Index WebSite."
+      },
+      "user": {
+        "name": "Admin",
+        "avatar": "./assets/tmp/img/avatar.jpg",
+        "email": "cipchk@qq.com"
+      },
+      "menu": [
+        {
+          "text": "主导航",
+          "i18n": "menu.main",
+          "group": true,
+          "hideInBreadcrumb": true,
+          "children": [
+            {
+              "text": "仪表盘",
+              "i18n": "menu.dashboard",
+              "icon": "anticon anticon-dashboard",
+              "link": "/dashboard"
+            },
+            {
+              "text": "快捷菜单",
+              "i18n": "menu.shortcut",
+              "icon": "anticon anticon-rocket",
+              "shortcutRoot": true,
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+    return result;
+  }
+
   // 数据库插入压力测试
   @Transaction()
   async dbInsertUserTest() {

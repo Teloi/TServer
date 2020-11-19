@@ -49,10 +49,6 @@ export class MenuService {
     this.menuRepository.insert(menu);
     return true;
   }
-
-
-
-
 }
 
 export class MenuTreeDto {

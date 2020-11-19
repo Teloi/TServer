@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { CacheService } from 'src/routes/tools/cache/cache.service';
 import { UserService } from '../user/user.service';
 import { LoginInput, RegisterInput } from './account.class';
 
@@ -7,7 +8,8 @@ import { LoginInput, RegisterInput } from './account.class';
 export class AccountController {
 
   constructor(
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly cacheService: CacheService
   ) {
 
   }
@@ -20,7 +22,6 @@ export class AccountController {
   async login(@Body() loginParmas: LoginInput) {
     // 验证帐号密码
     const authResult = await this.userService.validateUser(loginParmas.username, loginParmas.password);
-    console.log(authResult);
     switch (authResult.code) {
       case 1: {
         // 签发 Token
@@ -52,10 +53,16 @@ export class AccountController {
    * 使用refresh token 验证并签发 access token
    */
   @UseGuards(AuthGuard('jwt-refresh'))
-  @Get('refreshToken')
+  @Post('refreshToken')
   async refreshToken(@Req() req: any) {
     const userId = req.userInfo.Id;
     const user = await this.userService.findOneById(userId);
     return this.userService.certificate(user);
+  }
+
+  @Get('sendLoginSMS')
+  async sendLoginSMS(@Req() req: any) {
+    this.cacheService.set('phoneNumber', '123445', 600);
+    return true;
   }
 }
