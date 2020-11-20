@@ -1,6 +1,6 @@
 import RPCClient = require('@alicloud/pop-core');
 import { Injectable } from '@nestjs/common';
-import { AliSMSConfig, params } from 'src_config/aliyun-sms.config';
+import { AliSMSConfig, SmsConfig } from 'src_config/aliyun-sms.config';
 
 @Injectable()
 export class SmsSenderService {
@@ -19,22 +19,22 @@ export class SmsSenderService {
   createRandomCode(): string {
     var str = '';
     for (var i = 0; i < 6; i++) {
-      var ran = this.getRandom(0, 10);
+      var ran = this.getRandom(0, 9);
       str += this.codeStr.charAt(ran);
     }
 
     return str;
   }
 
-  async sendOneSMS(number: string, code: string) {
+  async sendCodeSMS(number: string, code: string, template: string) {
     const input = new SmsSendInput();
     input.PhoneNumbers = number;
     input.TemplateParam = "{code:" + code + "}"
+    input.TemplateCode = template;
 
     // Default
-    input.RegionId = params.RegionId;
-    input.SignName = params.SignName;
-    input.TemplateCode = params.TemplateCode;
+    input.RegionId = SmsConfig.RegionId;
+    input.SignName = SmsConfig.SignName;
 
     var requestOption = {
       method: 'POST'

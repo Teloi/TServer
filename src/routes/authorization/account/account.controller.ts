@@ -2,6 +2,7 @@ import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CacheService } from 'src/routes/tools/cache/cache.service';
 import { SmsSenderService } from 'src/routes/tools/sms-sender/sms-sender.service';
+import { SmsConfig } from 'src_config/aliyun-sms.config';
 import { UserService } from '../user/user.service';
 import { LoginInput, RegisterInput } from './account.class';
 
@@ -66,7 +67,7 @@ export class AccountController {
   async sendLoginSMS(@Body() input: any) {
     const phoneNumber = input.phoneNumber;
     const code = this.smsService.createRandomCode();
-    await this.smsService.sendOneSMS(phoneNumber, code);
+    await this.smsService.sendCodeSMS(phoneNumber, code, SmsConfig.TemplateCode_Login);
     this.cacheService.set(phoneNumber, code, 600);
     return true;
   }

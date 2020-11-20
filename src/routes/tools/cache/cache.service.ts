@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { RedisService } from 'nestjs-redis';
-
+import * as Redis from 'ioredis';
 
 @Injectable()
 export class CacheService {
-  public client;
+  client: Redis.Redis;
 
   constructor(private redisService: RedisService) {
     this.getClient();
   }
-  
+
   async getClient() {
-    this.client = await this.redisService.getClient()
+    this.client = this.redisService.getClient();
   }
 
   //设置值的方法
