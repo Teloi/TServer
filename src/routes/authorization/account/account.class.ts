@@ -1,14 +1,13 @@
-
 export class LoginInput {
   readonly username: string;
   readonly password: string;
 }
 
 export class RegisterInput {
-  readonly userName: string;
-  readonly nickName: string;
+  readonly mobilePrefix: string;
+  readonly captcha: string;
   readonly password: string;
-  readonly repassword: string;
+  readonly confirm: string;
   readonly mobile: string;
-  readonly email: string;
+  readonly mail: string;
 }

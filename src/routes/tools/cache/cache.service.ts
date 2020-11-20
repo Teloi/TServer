@@ -5,6 +5,9 @@ import * as Redis from 'ioredis';
 @Injectable()
 export class CacheService {
   client: Redis.Redis;
+  
+  loginCache = '_Login';
+  registerCache = '_Register';
 
   constructor(private redisService: RedisService) {
     this.getClient();

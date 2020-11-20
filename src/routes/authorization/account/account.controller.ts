@@ -71,4 +71,13 @@ export class AccountController {
     this.cacheService.set(phoneNumber, code, 600);
     return true;
   }
+
+  @Post('sendRegisterSMS')
+  async sendRegisterSMS(@Body() input: any) {
+    const phoneNumber = input.phoneNumber;
+    const code = this.smsService.createRandomCode();
+    await this.smsService.sendCodeSMS(phoneNumber, code, SmsConfig.TemplateCode_Register);
+    this.cacheService.set(phoneNumber + this.cacheService.registerCache, code, 600);
+    return true;
+  }
 }

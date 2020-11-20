@@ -28,7 +28,7 @@ export class User {
   @Column('tinyint')
   IsActive: boolean;
 
-  @Column()
+  @Column({ nullable: true })
   UserFace: string;
 
   @UpdateDateColumn()

@@ -6,12 +6,15 @@ import { User } from 'src/entity/db-main/user.entity';
 import { jwtConstants } from 'src_config/jwt.config';
 import { Repository } from 'typeorm';
 import * as jwt from 'jsonwebtoken';
+import { RegisterInput } from '../account/account.class';
+import { CacheService } from 'src/routes/tools/cache/cache.service';
 
 @Injectable()
 export class UserService {
 
   constructor(
     private readonly jwtService: JwtService,
+    private readonly cacheService: CacheService,
     @InjectRepository(User) private usersRepository: Repository<User>) {
 
   }
@@ -35,16 +38,16 @@ export class UserService {
    * 注册
    * @param requestBody 请求体
    */
-  async register(requestBody: any): Promise<any> {
-    const { userName, nickName, password, repassword, mobile, email } = requestBody;
-    if (password !== repassword) {
+  async register(requestBody: RegisterInput): Promise<any> {
+
+    if (requestBody.password !== requestBody.confirm) {
       return {
         code: 400,
         msg: '两次密码输入不一致',
       };
     }
 
-    const user = await this.findOneByUserName(userName);
+    const user = await this.findOneByUserName(requestBody.mobile);
     if (user) {
       return {
         code: 400,
@@ -52,17 +55,25 @@ export class UserService {
       };
     }
 
+    const captcha = await this.cacheService.get(requestBody.mobile + this.cacheService.registerCache);
+    if (captcha !== requestBody.captcha) {
+      return {
+        code: 400,
+        msg: '验证码不正确!',
+      };
+    }
+
     const salt = makeSalt(); // 制作密码盐
-    const hashPwd = encryptPassword(password, salt);  // 加密密码
+    const hashPwd = encryptPassword(requestBody.password, salt);  // 加密密码
     const insertUser = new User();
-    insertUser.UserName = userName;
-    insertUser.NickName = nickName;
+    insertUser.UserName = requestBody.mobile;
+    insertUser.NickName = "用户" + new Date().getSeconds().toString();
     insertUser.Password = hashPwd;
     insertUser.SecurityStamp = salt;
-    insertUser.Mobile = mobile;
+    insertUser.Mobile = requestBody.mobile;
     insertUser.IsActive = true;
-    insertUser.Email = email;
-    insertUser.UserFace = userName;
+    insertUser.Email = requestBody.mail;
+    insertUser.UserFace = null;
 
     // 保存
     try {
@@ -76,7 +87,7 @@ export class UserService {
       //   code: 503,
       //   msg: `Service error: ${err}`,
       // };
-      throw new HttpException('注册请求失败!', 400);
+      throw new HttpException(err, 400);
     }
   }
 
