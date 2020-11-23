@@ -6,7 +6,7 @@ import { User } from 'src/entity/db-main/user.entity';
 import { jwtConstants } from 'src_config/jwt.config';
 import { Repository } from 'typeorm';
 import * as jwt from 'jsonwebtoken';
-import { RegisterInput } from '../account/account.class';
+import { LoginInput, RegisterInput } from '../account/account.class';
 import { CacheService } from 'src/routes/tools/cache/cache.service';
 
 @Injectable()
@@ -32,6 +32,11 @@ export class UserService {
   // 通过用户名查询用户
   async findOneByUserName(username: string): Promise<User | undefined> {
     return await this.usersRepository.findOne({ UserName: username });
+  }
+
+  // 通过手机号查询用户
+  async findOneByUserMobile(mobile: string): Promise<User | undefined> {
+    return await this.usersRepository.findOne({ Mobile: mobile });
   }
 
   /**
@@ -61,6 +66,8 @@ export class UserService {
         code: 400,
         msg: '验证码不正确!',
       };
+    } else {
+      this.cacheService.clear(requestBody.mobile + this.cacheService.registerCache);
     }
 
     const salt = makeSalt(); // 制作密码盐
@@ -93,27 +100,53 @@ export class UserService {
 
 
   // JWT验证 - Step 2: 校验用户信息
-  async validateUser(username: string, password: string): Promise<any> {
-    const user = await this.findOneByUserName(username);
-    if (user) {
-      const hashedPassword = user.Password;
-      const salt = user.SecurityStamp;
-      // 通过密码盐，加密传参，再与数据库里的比较，判断是否相等
-      const hashPassword = encryptPassword(password, salt);
-      if (hashedPassword === hashPassword) {
-        // 密码正确
-        return {
-          code: 1,
-          user,
-        };
-      } else {
-        // 密码错误
-        return {
-          code: 2,
-          user: null,
-        };
+  async validateUser(loginParmas: LoginInput): Promise<any> {
+
+    if (loginParmas.type === 0) {
+      // 使用用户名密码登录
+      const user = await this.findOneByUserName(loginParmas.username);
+      if (user) {
+        const hashedPassword = user.Password;
+        const salt = user.SecurityStamp;
+        // 通过密码盐，加密传参，再与数据库里的比较，判断是否相等
+        const hashPassword = encryptPassword(loginParmas.password, salt);
+        if (hashedPassword === hashPassword) {
+          // 密码正确
+          return {
+            code: 1,
+            user,
+          };
+        } else {
+          // 密码错误
+          return {
+            code: 2,
+            user: null,
+          };
+        }
       }
     }
+    else {
+      // 使用手机号验证码登录
+      const user = await this.findOneByUserMobile(loginParmas.mobile);
+      if (user) {
+        const cacheCaptcha = await this.cacheService.get(loginParmas.mobile + this.cacheService.loginCache);
+        await this.cacheService.clear(loginParmas.mobile + this.cacheService.loginCache);
+        if (cacheCaptcha === loginParmas.captcha) {
+          // 密码正确
+          return {
+            code: 1,
+            user,
+          };
+        } else {
+          // 密码错误
+          return {
+            code: 2,
+            user: null,
+          };
+        }
+      }
+    }
+
     // 查无此人
     return {
       code: 3,

@@ -24,7 +24,8 @@ export class AccountController {
   @Post('login')
   async login(@Body() loginParmas: LoginInput) {
     // 验证帐号密码
-    const authResult = await this.userService.validateUser(loginParmas.username, loginParmas.password);
+
+    const authResult = await this.userService.validateUser(loginParmas);
     switch (authResult.code) {
       case 1: {
         // 签发 Token
@@ -68,7 +69,7 @@ export class AccountController {
     const phoneNumber = input.phoneNumber;
     const code = this.smsService.createRandomCode();
     await this.smsService.sendCodeSMS(phoneNumber, code, SmsConfig.TemplateCode_Login);
-    this.cacheService.set(phoneNumber, code, 600);
+    this.cacheService.set(phoneNumber + this.cacheService.loginCache, code, 600);
     return true;
   }
 

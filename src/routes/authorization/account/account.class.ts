@@ -1,6 +1,9 @@
 export class LoginInput {
-  readonly username: string;
-  readonly password: string;
+  type: number;
+  username: string;
+  password: string;
+  mobile: string;
+  captcha: string;
 }
 
 export class RegisterInput {

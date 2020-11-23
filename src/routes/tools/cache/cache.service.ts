@@ -5,7 +5,7 @@ import * as Redis from 'ioredis';
 @Injectable()
 export class CacheService {
   client: Redis.Redis;
-  
+
   loginCache = '_Login';
   registerCache = '_Register';
 
@@ -38,5 +38,13 @@ export class CacheService {
     var data = await this.client.get(key);
     if (!data) return;
     return JSON.parse(data);
+  }
+
+  // 删除值的方法
+  async clear(key: string) {
+    if (!this.client) {
+      await this.getClient();
+    }
+    await this.client.del(key);
   }
 }
