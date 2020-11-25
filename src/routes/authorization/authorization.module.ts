@@ -23,10 +23,11 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from 'src_config/jwt.config';
 import { Menu } from 'src/entity/db-main/menu.entity';
 import { ToolsModule } from '../tools/tools.module';
+import { Permission } from 'src/entity/db-main/permission.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Role, User, UserGroup, Menu]),
+    TypeOrmModule.forFeature([Role, User, UserGroup, Menu, Permission]),
     PassportModule.register({ defaultStrategy: 'jwt', property: 'userInfo' }),
     JwtModule.register({
       secret: jwtConstants.secret,

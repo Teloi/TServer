@@ -34,17 +34,49 @@ export class SystemService {
           "hideInBreadcrumb": true,
           "children": [
             {
-              "text": "仪表盘",
+              "text": "看板",
               "i18n": "menu.dashboard",
               "icon": "anticon anticon-dashboard",
-              "link": "/dashboard"
-            },
+              "link": "/room/dashboard"
+            }
+          ]
+        }, {
+          "text": "设置",
+          "i18n": "menu.settings",
+          "group": true,
+          "hideInBreadcrumb": true,
+          "children": [
             {
-              "text": "快捷菜单",
-              "i18n": "menu.shortcut",
-              "icon": "anticon anticon-rocket",
-              "shortcutRoot": true,
-              "children": []
+              "text": "System",
+              "i18n": "menu.settings",
+              "icon": "anticon anticon-setting",
+              "children": [
+                {
+                  "text": "User",
+                  "link": "/sys/user",
+                  "i18n": "menu.system.user"
+                },
+                {
+                  "text": "Menu",
+                  "link": "/sys/menu",
+                  "i18n": "menu.system.menu"
+                },
+                {
+                  "text": "Permission",
+                  "link": "/room/sys/permission",
+                  "i18n": "menu.system.permission"
+                },
+                {
+                  "text": "Role",
+                  "link": "/sys/role",
+                  "i18n": "menu.system.role"
+                },
+                {
+                  "text": "Log",
+                  "link": "/sys/log",
+                  "i18n": "menu.system.log"
+                }
+              ]
             }
           ]
         }

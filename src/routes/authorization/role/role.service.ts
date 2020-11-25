@@ -14,9 +14,9 @@ export class RoleService {
   }
 
   // 新增角色
-  async addRole(): Promise<boolean> {
+  async addRole(roleName: string): Promise<boolean> {
     const role = new Role();
-    role.Name = "管理员";
+    role.Name = roleName;
     this.roleRepository.insert(role);
     return true;
   }

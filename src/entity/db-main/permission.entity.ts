@@ -11,9 +11,13 @@ export class Permission {
   @PrimaryGeneratedColumn({ type: "bigint" })
   Id: number;
 
+  // 父菜单Id
+  @Column('bigint')
+  ParentId: number;
+
   // 权限类型 (菜单 menu 元素 element 操作 operation)
-  @Column({ length: 30 })
-  PermissionType: string;
+  @Column({ length: 50 })
+  Name: string;
 
   @UpdateDateColumn()
   LastModificationTime: Date;

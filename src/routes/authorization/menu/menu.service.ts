@@ -27,7 +27,7 @@ export class MenuService {
     let root = [];
     menuList.forEach(el => {
       // 判断根节点
-      if (el.ParentId.toString() === '-1') {
+      if (el.ParentId=== -1) {
         root.push(el);
         return;
       }

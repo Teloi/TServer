@@ -11,7 +11,8 @@ export const main: any = {
   ],
   "database": "ts-main",
   "synchronize": true,
-  "logging": false
+  "logging": false,
+  "bigNumberStrings": false
 };
 
 export const test: any = {

@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { RoleService } from './role.service';
 
@@ -16,7 +16,7 @@ export class RoleController {
   }
 
   @Get('AddRole')
-  async addRole() {
-    return await this.roleService.addRole();
+  async addRole(@Body() input) {
+    return await this.roleService.addRole(input.name);
   }
 }

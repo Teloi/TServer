@@ -11,10 +11,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/entity/db-main/user.entity';
 import { Role } from 'src/entity/db-main/role.entity';
 import { UserGroup } from 'src/entity/db-main/user_group.entity';
+import { Permission } from 'src/entity/db-main/permission.entity';
+import { Menu } from 'src/entity/db-main/menu.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Role, User, UserGroup]),
+    TypeOrmModule.forFeature([Role, User, UserGroup, Menu, Permission]),
     ToolsModule,
     AuthorizationModule
   ],
