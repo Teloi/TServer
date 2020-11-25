@@ -19,4 +19,9 @@ export class PermissionController {
   async addPermission(@Body() input) {
     return await this.permissionService.addPermission(input.name);
   }
+
+  @Post('EditPermission')
+  async editPermission(@Body() input) {
+    return await this.permissionService.editPermission(input);
+  }
 }

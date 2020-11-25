@@ -15,9 +15,12 @@ export class Permission {
   @Column('bigint')
   ParentId: number;
 
-  // 权限类型 (菜单 menu 元素 element 操作 operation)
   @Column({ length: 50 })
   Name: string;
+
+  // 描述
+  @Column({ length: 200, nullable: true })
+  Remark: string;
 
   @UpdateDateColumn()
   LastModificationTime: Date;

@@ -21,4 +21,11 @@ export class PermissionService {
     this.permissionRepository.insert(p);
     return true;
   }
+
+  async editPermission(input: Permission) {
+    const p = await this.permissionRepository.findOne(input.Id);
+    p.Name = input.Name;
+    p.Remark = input.Remark;
+    await this.permissionRepository.save(p);
+  }
 }
