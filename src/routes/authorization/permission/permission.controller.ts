@@ -24,4 +24,9 @@ export class PermissionController {
   async editPermission(@Body() input) {
     return await this.permissionService.editPermission(input);
   }
+
+  @Post('DeletePermission')
+  async deletePermission(@Body() input) {
+    return await this.permissionService.deletePermission(input);
+  }
 }

@@ -17,15 +17,39 @@ export class PermissionService {
   async addPermission(permissionName: string): Promise<boolean> {
     const p = new Permission();
     p.Name = permissionName;
-    p.ParentId = -1;
+    p.ParentId = 0;
     this.permissionRepository.insert(p);
     return true;
   }
 
+  // 编辑权限
   async editPermission(input: Permission) {
-    const p = await this.permissionRepository.findOne(input.Id);
-    p.Name = input.Name;
-    p.Remark = input.Remark;
-    await this.permissionRepository.save(p);
+    if (input.Id !== null && input.Id !== undefined) {
+      const p = await this.permissionRepository.findOne(input.Id);
+      p.Name = input.Name;
+      p.Remark = input.Remark;
+      await this.permissionRepository.save(p);
+    }
+    else {
+      const newP = new Permission();
+      newP.Name = input.Name;
+      newP.ParentId = input.ParentId;
+      newP.Remark = input.Remark;
+      await this.permissionRepository.insert(newP);
+    }
+
+    return true;
+  }
+
+  async deletePermission(input: Permission): Promise<boolean> {
+    if (input.Id !== null && input.Id !== undefined) {
+      const p = await this.permissionRepository.findOne(input.Id);
+      await this.permissionRepository.remove(p);
+    }
+    else {
+      throw new Error("Id 不存在");
+    }
+
+    return true;
   }
 }
