@@ -37,6 +37,7 @@ async function bootstrap() {
   // 文件系统
   app.use('/' + version + '/assets', express.static('assets'));
   // 启动
+  await app.listen(5859);
   await app.listen(443);
 }
 bootstrap();
