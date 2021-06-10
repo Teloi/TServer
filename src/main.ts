@@ -11,8 +11,8 @@ let https = require("https");
 async function bootstrap() {
   // Configuare https
   const httpsOption = {
-    key: fs.readFileSync("./https/xxxxxxxxxxxx.key"),
-    cert: fs.readFileSync("./https/xxxxxxxxxxxx.pem")
+    key: fs.readFileSync("./https/server.teloi.cn.key"),
+    cert: fs.readFileSync("./https/server.teloi.cn.pem")
   }
   const app = await NestFactory.create(AppModule, { httpsOptions: httpsOption });
   app.use(express.json()); // For parsing application/json
