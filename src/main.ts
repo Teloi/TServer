@@ -5,9 +5,16 @@ import { TransformInterceptor } from './core/interceptor/transform.interceptor';
 import { HttpExceptionFilter } from './core/filter/http-exception.filter';
 import { AllExceptionsFilter } from './core/filter/any-exception.filter';
 import { logger } from './core/middleware/logger.middleware';
+let fs = require("fs");
+let https = require("https");
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  // Configuare https
+  const httpsOption = {
+    key: fs.readFileSync("./https/xxxxxxxxxxxx.key"),
+    cert: fs.readFileSync("./https/xxxxxxxxxxxx.pem")
+  }
+  const app = await NestFactory.create(AppModule, { httpsOptions: httpsOption });
   app.use(express.json()); // For parsing application/json
   app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
   // 设置全局路由前缀
@@ -30,6 +37,6 @@ async function bootstrap() {
   // 文件系统
   app.use('/' + version + '/assets', express.static('assets'));
   // 启动
-  await app.listen(5859);
+  await app.listen(443);
 }
 bootstrap();

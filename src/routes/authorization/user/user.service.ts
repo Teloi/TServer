@@ -167,8 +167,7 @@ export class UserService {
           name: payload.nickName,
           userName: payload.userName,
           token,
-          refreshToken,
-          expired: jwtConstants.longToken
+          refreshToken
         },
         msg: `登录成功`,
       };
